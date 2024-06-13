@@ -42,9 +42,10 @@ export class UserService {
 
         try {
             await this.userRepository.save(newUser);
+            return { code: 200, message: '注册成功' };
         } catch (e) {
             this.logger.error(e, UserService);
-            return '注册失败';
+            return { code: 0, message: '注册失败' };
         }
     }
 }
