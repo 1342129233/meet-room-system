@@ -19,7 +19,6 @@ export class EmailService {
 
 	async sendMail({ to, subject, html }) {
 		// 发送邮件
-		console.log(222, this.transporter)
 		await this.transporter.sendMail({
 			from: { // 发送人地址
 				name: '会议室预定系统',

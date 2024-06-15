@@ -4,6 +4,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FormatResponseInterceptor } from './format-response.interceptor';
 import { InvokeRecordInterceptor } from './invoke-record.interceptor';
+import { UnloginFilter } from './unlogin.filter';
+
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -13,6 +15,8 @@ async function bootstrap() {
     app.useGlobalInterceptors(new FormatResponseInterceptor());
     // 全局引入失败拦截器
     app.useGlobalInterceptors(new InvokeRecordInterceptor());
+    // 全局注册异常过滤器
+    app.useGlobalFilters(new UnloginFilter());
 
     const configService = app.get(ConfigService);
 

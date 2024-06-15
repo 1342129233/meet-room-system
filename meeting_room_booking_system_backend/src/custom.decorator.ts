@@ -7,8 +7,10 @@ import { Request } from 'express';
 
 export const RequireLogin = () => SetMetadata('require-login', true);
 
-export const requirePermission = (...permissions: string[]) =>
-	SetMetadata('require-permission', permissions);
+export const requirePermission = (...permissions: string[]) =>{
+	return SetMetadata('require-permission', permissions);
+}
+	
 
 export const UserInfo = createParamDecorator(
 	(data: string, ctx: ExecutionContext) => {
