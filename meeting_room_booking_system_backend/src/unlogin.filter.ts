@@ -14,7 +14,7 @@ export class UnLoginException {
 	}
 }
 
-// 登陆异常过滤器
+// 自定义的统一响应式格式
 @Catch(UnLoginException)
 export class UnloginFilter implements ExceptionFilter {
     // exception：当前正在处理的异常对象

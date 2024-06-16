@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { FormatResponseInterceptor } from './format-response.interceptor';
 import { InvokeRecordInterceptor } from './invoke-record.interceptor';
 import { UnloginFilter } from './unlogin.filter';
+import { CustomExceptionFilter } from './custom-exception.filter';
 
 
 async function bootstrap() {
@@ -17,9 +18,10 @@ async function bootstrap() {
     app.useGlobalInterceptors(new InvokeRecordInterceptor());
     // 全局注册异常过滤器
     app.useGlobalFilters(new UnloginFilter());
+    // 自定义报错异常
+    app.useGlobalFilters(new CustomExceptionFilter());
 
     const configService = app.get(ConfigService);
-
     await app.listen(configService.get('nest_server_port'));
 }
 bootstrap();
