@@ -1,7 +1,8 @@
+import { useRef, useState, useEffect } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { registerCaptcha, updatePassword } from './server';
-import { UpdatePasswordForm } from './types';
+import { getUserInfo, updateUpdateInfoCaptcha, updateInfo } from './server';
+import { UserInfo } from './types';
 import './style/index.module.less'
 
 const layout1 = {
@@ -9,34 +10,34 @@ const layout1 = {
     wrapperCol: { span: 16 }
 }
 
-const layout2 = {
-    labelCol: { span: 0 },
-    wrapperCol: { span: 24 }
-}
-
-// 修改密码
-export default function UpdatePassword() {
+export default function UpdateInfo() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    const flag = useRef<boolean>(true);
+    const [infoId, setInfoId] = useState<{id: number}>({
+        id: 0
+    });
 
-    const onFinish = async (value: UpdatePasswordForm) => {
+    const onFinish = async (value: UserInfo) => {
         try {
-            const res = await updatePassword(value);
-            message.success(res.data)
-            navigate('/login')
+            await updateInfo(infoId.id, value);
+            message.success('修改成功')
+            navigate('/')
         } catch(err: any) {
             message.error(err.data || '系统繁忙,请稍后再试')
         }
-    }
+    };
+
     // 发送验证码
     const send = async () => {
         const address = form.getFieldValue('email');
         try {
-            await registerCaptcha(address);
+            await updateUpdateInfoCaptcha(address);
         } catch(err: any) {
             message.error(err.data || '系统繁忙,请稍后再试')
         }
-    }
+    };
+
     const sendCaptcha = () => {
         form
             .validateFields(['email'])
@@ -46,30 +47,42 @@ export default function UpdatePassword() {
             .catch((errorInfo) => {
                 console.log('Validation failed:', errorInfo);
             });
+    };
+    const query = async () => {
+        const res = await getUserInfo();
+        form.setFieldValue('headPic', res.data.headPic);
+        form.setFieldValue('nickName', res.data.nickName)
+        form.setFieldValue('email', res.data.email)
+        setInfoId({
+            id: res.data.id
+        })
     }
-    // 再次密码重复判断
-    const validatePassword = ({ getFieldValue }: any) => ({
-        validator(_: any, value: any) {
-          if (!value || getFieldValue('password') === value) {
-            return Promise.resolve();
+    useEffect(() => {
+        if(flag.current) {
+            flag.current = false;
+            query()
           }
-          return Promise.reject(new Error('两次输入的密码不一致!'));
-        },
-    });
+    }, [])
     return (
-        <div id="update-password">
-            <h1>会议室预定系统</h1>
+        <div id="updateInfo-container">
             <Form
-                { ...layout1 }
                 form={form}
+                {...layout1}
                 onFinish={onFinish}
                 colon={false}
                 autoComplete="off"
             >
                 <Form.Item
-                    label="用户名"
-                    name="username"
-                    rules={[{ required: true, message: '请输入用户名!' }]}
+                    label="头像"
+                    name="headPic"
+                    rules={[{ required: true, message: '请输入头像!' }]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    label="昵称"
+                    name="nickName"
+                    rules={[{ required: true, message: '请输入昵称!' }]}
                 >
                     <Input />
                 </Form.Item>
@@ -81,7 +94,7 @@ export default function UpdatePassword() {
                         { type: 'email', message: '请输入合法邮箱地址' }
                     ]}
                 >
-                    <Input />
+                    <Input disabled />
                 </Form.Item>
                 <div className="captcha-wrapper">
                     <Form.Item
@@ -91,29 +104,10 @@ export default function UpdatePassword() {
                     >
                         <Input />
                     </Form.Item>
-                    <Button type="primary" className="send-verification" onClick={sendCaptcha}>发送验证码</Button>
+                    <Button type="primary" className="send-verification" onClick={() => sendCaptcha()}>发送验证码</Button>
                 </div>
                 <Form.Item
-                    label="新密码"
-                    name="password"
-                    rules={[{ required: true, message: '请输入新密码!' }]}
-                >
-                    <Input.Password />
-                </Form.Item>
-                <Form.Item
-                    label="确认密码"
-                    name="confirmPassword"
-                    dependencies={['password']}
-                    hasFeedback
-                    rules={[
-                        { required: true, message: '请输入确认密码!' },
-                        ({ getFieldValue }) => validatePassword({ getFieldValue })
-                    ]}
-                >
-                    <Input.Password />
-                </Form.Item>
-                <Form.Item
-                    { ...layout2 }
+                    wrapperCol={{ offset: 8, span: 16 }}
                 >
                     <Button className="btn" type="primary" htmlType="submit">
                         修改
@@ -123,4 +117,3 @@ export default function UpdatePassword() {
         </div>
     )
 }
-

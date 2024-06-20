@@ -1,7 +1,7 @@
 import { get, post } from '@/axios';
 import { RegisterUser } from '../types';
 
- // 注册邮箱
+ // 获取验证码
 export function registerCaptcha(email: string) {
    return get(`/user/register-captcha?address=${email}`);
 }

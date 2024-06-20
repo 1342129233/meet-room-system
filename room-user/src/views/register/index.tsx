@@ -105,7 +105,10 @@ export default function Register() {
                 <Form.Item
                     label="邮箱"
                     name="email"
-                    rules={[{ required: true, message: '请输入邮箱!' }]}
+                    rules={[
+                        { required: true, message: '请输入邮箱!' },
+                        { type: 'email', message: '请输入合法邮箱地址' }
+                    ]}
                 >
                     <Input />
                 </Form.Item>

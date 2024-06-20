@@ -22,14 +22,15 @@ async function bootstrap() {
     app.useGlobalFilters(new UnloginFilter());
     // 自定义报错异常
     app.useGlobalFilters(new CustomExceptionFilter());
-
+    
     // 配置 CORS 选项
     const corsOptions: CorsOptions = {
         origin: 'http://localhost:3000', // 允许的源，可以是字符串、数组或函数
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 允许的方法
-        allowedHeaders: 'Content-Type, Accept', // 允许的请求头
+        allowedHeaders: 'Content-Type, Accept, Authorization', // 允许的请求头
         credentials: true, // 是否允许发送凭据（如 cookies）
     };
+    
     // 启用 CORS
     app.enableCors(corsOptions);
 

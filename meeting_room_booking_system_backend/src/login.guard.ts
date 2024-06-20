@@ -16,6 +16,7 @@ import { UnLoginException, UnloginFilter } from './unlogin.filter';
 interface JwtUserData {
 	userId: string;
 	username: string;
+	email: string;
 	roles: string[];
 	permissions: Permission[];
 }
@@ -40,6 +41,7 @@ export class LoginGuard implements CanActivate {
 	canActivate(
 		context: ExecutionContext,
 	): boolean | Promise<boolean> | Observable<boolean> {
+
 		// 获取当前请求对象：Request
 		const request: Request = context.switchToHttp().getRequest();
 
@@ -53,7 +55,7 @@ export class LoginGuard implements CanActivate {
 
 		// 获取请求头中的“authorization”字段
 		const authorization = request.headers.authorization;
-		
+
 		// 如果请求头中没有“authorization”，抛出“UnauthorizedException”
 		if (!authorization) {
 			throw new UnauthorizedException('用户未登录');
@@ -68,6 +70,7 @@ export class LoginGuard implements CanActivate {
 			request.user = {
 				userId: data.userId,
 				username: data.username,
+				email: data.email,
 				roles: data.roles,
 				permissions: data.permissions,
 			};

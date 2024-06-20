@@ -1,8 +1,8 @@
-import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
+import axios, { AxiosResponse, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 
 const instance = axios.create({
     baseURL: 'http://localhost:9000',
-    timeout: 10 * 1000,
+    timeout: 5 * 1000,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json;charset=UTF-8'
@@ -19,23 +19,24 @@ export {
 
 export interface Response {
     code: string | number;
-    msg?: string;
+    data: string;
+    message: string
 }
 
 // 定义响应处理器
-const responseHandler = (response: any) => {
-    // 在这里可以处理成功响应
-    if (response.status === 200 || response.status === 201) {
-        // 可以在这里进行一些全局处理，比如日志记录或数据格式化
-        if(response.data.code === 200 || response.data.code === 201) {
-            return Promise.resolve(response.data); // 直接返回响应数据
+const responseHandler = <T>(response: AxiosResponse<Response>): Promise<T> => {
+    
+    return new Promise((resolve, reject) => {
+        const body: T = response.data as T;
+        if(response.status === 200 || response.status === 201) {
+            if(response.data.code === 200 || response.data.code === 201) {
+                resolve(body); // 直接返回响应数据
+            }
+            reject(body);
+        } else {
+            reject(body);
         }
-        return Promise.reject(response.data);
-    } else {
-      // 如果状态码不是200，可以在这里处理其他情况
-      const { data } = response;
-      return Promise.reject(data);
-    }
+    })
 };
 
 // 定义错误处理器
@@ -55,6 +56,19 @@ const errorHandler = (error: any) => {
       return Promise.reject(error);
     }
 };
+
+// 添加请求拦截器
+instance.interceptors.request.use((config) => {
+    const token = localStorage.getItem('access_token');
+    if(token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+}, (error) => {
+    console.log('error', error)
+    return Promise.reject(error); 
+});
+  
 
 instance.interceptors.response.use(responseHandler, errorHandler);
 

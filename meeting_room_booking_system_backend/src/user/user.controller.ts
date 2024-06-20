@@ -69,7 +69,7 @@ export class UserController {
         const code = Math.random().toString().slice(2, 8);
 
         await this.redisService.set(`captcha_${address}`, code, 5 * 60);
-
+		console.log('注册验证码', code)
         await this.emailService.sendMail({
 			to: address,
 			subject: '注册验证码',
@@ -105,6 +105,7 @@ export class UserController {
 			{
 				userId: vo.userInfo.id,
 				username: vo.userInfo.username,
+				email: vo.userInfo.email,
 				roles: vo.userInfo.roles,
 				permissions: vo.userInfo.permissions,
 			},
@@ -136,6 +137,7 @@ export class UserController {
 			{
 				userId: vo.userInfo.id,
 				username: vo.userInfo.username,
+				email: vo.userInfo.email,
 				roles: vo.userInfo.roles,
 				permissions: vo.userInfo.permissions,
 			},
@@ -187,6 +189,7 @@ export class UserController {
 				{
 					userId: user.id,
 					username: user.username,
+					email: user.email,
 					roles: user.roles,
 					permissions: user.permissions,
 				},
@@ -223,7 +226,7 @@ export class UserController {
 		}
 	}
 
-    // adin 刷新
+    // admin 刷新
     @Get('admin/refresh')
 	async adminRefresh(@Query('refreshToken') refreshToken: string) {
 		try {
@@ -235,6 +238,7 @@ export class UserController {
 				{
 					userId: user.id,
 					username: user.username,
+					email: user.email,
 					roles: user.roles,
 					permissions: user.permissions,
 				},
@@ -268,14 +272,17 @@ export class UserController {
 	}
 
     // 更新验证码
-	@ApiBearerAuth()
-	@ApiBody({
-		type: UpdateUserPasswordDto
-	})
+	// @ApiBearerAuth()
+	@ApiQuery({
+		name: 'address',
+		description: '邮箱地址',
+		type: String
+	})  
 	@ApiResponse({
 		type: String,
-		description: '验证码已失效/不正确'
+		description: '发送成功'
 	})
+	// @RequireLogin() // 需要登陆
     @Get('update_password/captcha')
 	async updatePasswordCaptcha(@Query('address') address: string) {
 		const code = Math.random().toString().slice(2, 8);
@@ -285,7 +292,7 @@ export class UserController {
 			code,
 			10 * 60,
 		);
-
+		console.log('更新验证码', code)
 		await this.emailService.sendMail({
 			to: address,
 			subject: '更改密码验证码',
@@ -323,13 +330,20 @@ export class UserController {
     }
 
     // 修改密码(管理员和用户修改密码的页面是一样的,用同一个接口)
+	// @ApiBearerAuth()
+	@ApiBody({
+		type: UpdateUserPasswordDto,
+	})
+	@ApiResponse({
+		type: String,
+		description: '验证码已失效/不正确'
+	})
     @Post(['update_password', 'admin/update_password'])
-    @RequireLogin()
+    // @RequireLogin() // 需要登陆,修改密码不一定要登陆
     async updatePassword(
-        @UserInfo('userId') userId: number, 
         @Body() passwordDto: UpdateUserPasswordDto,
     ) {
-        return await this.userService.updatePassword(userId, passwordDto);
+        return await this.userService.updatePassword(passwordDto);
     }
 
     // 修改用户信息
@@ -349,8 +363,37 @@ export class UserController {
 		@UserInfo('userId') userId: number,
 		@Body() updateUserDto: UpdateUserDto,
 	) {
+		// 更新用户信息
 		return await this.userService.update(userId, updateUserDto);
 	}
+
+	// 更新验证码
+	@ApiBearerAuth() // 需要登陆
+	@ApiResponse({
+		type: String,
+		description: '发送成功'
+	})
+	@RequireLogin()
+	@Get('update/captcha')
+	async updateCaptcha(
+		@UserInfo('email') address: string
+	){
+		const code = Math.random().toString().slice(2, 8);
+
+        await this.redisService.set(
+			`update_user_captcha_${address}`, 
+			code, 
+			10 * 60
+		);
+		console.log('注册验证码', code)
+		await this.emailService.sendMail({
+			to: address,
+			subject: '更新验证码',
+			html: `<p>您的更新验证码是：${code}</p>`,
+		});
+		return { code: 200, message: '验证码发送成功' };
+	}
+
 
 	// 修改字段
 	@ApiBearerAuth() // 需要登陆
