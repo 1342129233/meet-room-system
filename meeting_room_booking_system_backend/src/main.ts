@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -11,7 +12,7 @@ import { CustomExceptionFilter } from './custom-exception.filter';
 
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
     // 全局引入
     app.useGlobalPipes(new ValidationPipe());
     // 全局引入成功拦截器
@@ -22,12 +23,17 @@ async function bootstrap() {
     app.useGlobalFilters(new UnloginFilter());
     // 自定义报错异常
     app.useGlobalFilters(new CustomExceptionFilter());
+
+    // 静态文件根目录
+    app.useStaticAssets('uploads', {
+        prefix: '/uploads'
+    })
     
     // 配置 CORS 选项
     const corsOptions: CorsOptions = {
         origin: 'http://localhost:3000', // 允许的源，可以是字符串、数组或函数
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 允许的方法
-        allowedHeaders: 'Content-Type, Accept, Authorization', // 允许的请求头
+        allowedHeaders: 'Content-Type, Accept, Authorization, x-requested-with', // 允许的请求头
         credentials: true, // 是否允许发送凭据（如 cookies）
     };
     

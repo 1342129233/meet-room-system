@@ -13,6 +13,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { LoginGuard } from './login.guard';
 import { PermissonGuard } from './permission.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
     imports: [
@@ -56,6 +57,7 @@ import { JwtModule } from '@nestjs/jwt';
         UserModule,
         RedisModule,
         EmailModule,
+		UploadModule,
     ],
     controllers: [AppController],
     providers: [

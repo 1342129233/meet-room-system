@@ -1,4 +1,4 @@
-import { Controller, Inject, Get, Post, Body, Query, UnauthorizedException, ParseIntPipe, BadRequestException, DefaultValuePipe, HttpStatus, Req } from '@nestjs/common';
+import { Controller, Inject, Get, Post, Body, Query, UnauthorizedException, ParseIntPipe, BadRequestException, DefaultValuePipe, HttpStatus, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterUserDto } from './dto/register.dto';
 import { RequireLogin, UserInfo } from '@/custom.decorator';
@@ -14,7 +14,10 @@ import { generateParseIntPipe } from '@/utils';
 import { ApiTags, ApiQuery, ApiResponse, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { LoginUserVo } from './vo/login-user.vo';
 import { RefreshTokenVo } from './vo/refresh-token.vo';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { storage } from '@/utils';
 
+const path = require('path');
 
 @ApiTags('用户管理模块')
 @Controller('user')
@@ -455,4 +458,5 @@ export class UserController {
 	) {
 		return  this.userService.findUsersByPage(username, nickName, email, pageNo, pageSize);
 	}
+	
 }

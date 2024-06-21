@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { ImageUploader } from '@/components/image-uploader';
 import { getUserInfo, updateUpdateInfoCaptcha, updateInfo } from './server';
 import { UserInfo } from './types';
 import './style/index.module.less'
@@ -63,6 +64,10 @@ export default function UpdateInfo() {
             query()
           }
     }, [])
+    const normFile = (e: string) => {
+        console.log(222, e)
+        return e;
+    };
     return (
         <div id="updateInfo-container">
             <Form
@@ -72,12 +77,8 @@ export default function UpdateInfo() {
                 colon={false}
                 autoComplete="off"
             >
-                <Form.Item
-                    label="头像"
-                    name="headPic"
-                    rules={[{ required: true, message: '请输入头像!' }]}
-                >
-                    <Input />
+                <Form.Item name="headPic" label="头像" valuePropName="fileList" getValueFromEvent={normFile}>
+                    <ImageUploader></ImageUploader>
                 </Form.Item>
                 <Form.Item
                     label="昵称"
