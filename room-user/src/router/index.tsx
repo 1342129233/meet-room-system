@@ -7,6 +7,8 @@ const UpdatePassword = lazy(() => import(/* webpackChunkName: "updatePassword" *
 const ErrorPage = lazy(() => import(/* webpackChunkName: "login" */ '@/views/errorPage/index'));
 const Home = lazy(() => import(/* webpackChunkName: "home" */ '@/views/home/index'));
 const UpdateInfo = lazy(() => import(/* webpackChunkName: "home" */ '@/views/updateInfo/index'));
+const UserManage = lazy(() => import(/* webpackChunkName: "userManage" */ '@/views/userManage/index'));
+const Menu = lazy(() => import(/* webpackChunkName: "userManage" */ '@/views/menu/index'));
 
 export const routes = [
     {
@@ -15,13 +17,21 @@ export const routes = [
         errorElement: <ErrorPage />,
         children: [
             {
+                path: '/',
+                element: <Menu />,
+                children: [
+                    {
+                        name: '用户管理',
+                        path: '/user_manage',
+                        element: <UserManage />
+                    }
+                ]
+            },
+            {
                 path: 'update_info',
                 element: <UpdateInfo />
             },
-            {
-                path: 'bbb',
-                element: <div>bbb</div>
-            }
+            
         ]
     },
 	{

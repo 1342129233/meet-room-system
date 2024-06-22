@@ -20,7 +20,7 @@ export {
 export interface Response {
     code: string | number;
     data: string;
-    message: string
+    message: string;
 }
 
 // 定义响应处理器
@@ -40,20 +40,31 @@ const responseHandler = <T>(response: AxiosResponse<Response>): Promise<T> => {
 };
 
 // 定义错误处理器
-const errorHandler = (error: any) => {
+const errorHandler = async (error: any) => {
+    const { data, config } = error.response;
     // 在这里可以处理错误响应
     if (error.response) {
-      // 服务器响应了一个状态码在2xx之外的范围
-      console.error('Error response:', error.response);
-      return Promise.reject(error.response.data);
+        // 服务器响应了一个状态码在2xx之外的范围
+        //   console.error('Error response:', error.response);
+        //   return Promise.reject(error.response.data);
+        if(data.code === 401 && !(config.url!).includes('/user/admin/refresh')) {
+            // const res = await refreshToken()
+            // if(res.status === 200) {
+            //     return axios(config)
+            // } else {
+            //     setTimeout(() => {
+            //         window.location.href="/login"
+            //     }, 1000)
+            // }
+        }
     } else if (error.request) {
-      // 请求已经发出，但没有收到响应
-      console.error('No response received:', error.request);
-      return Promise.reject(new Error('No response received'));
+        // 请求已经发出，但没有收到响应
+        console.error('No response received:', error.request);
+        return Promise.reject(new Error('No response received'));
     } else {
-      // 其他错误
-      console.error('Error:', error.message);
-      return Promise.reject(error);
+        // 其他错误
+        console.error('Error:', error.message);
+        return Promise.reject(error);
     }
 };
 
