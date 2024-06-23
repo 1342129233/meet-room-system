@@ -234,7 +234,6 @@ export class UserController {
 	async adminRefresh(@Query('refreshToken') refreshToken: string) {
 		try {
 			const data = this.jwtService.verify(refreshToken);
-
 			const user = await this.userService.findUserById(data.userId, true);
 
 			const access_token = this.jwtService.sign(
@@ -264,7 +263,7 @@ export class UserController {
 						) || '7d',
 				},
 			);
-
+			
 			return {
 				access_token,
 				refresh_token,
@@ -452,11 +451,11 @@ export class UserController {
 	async list(
 		@Query('pageNo',new DefaultValuePipe(1), generateParseIntPipe('pageNo')) pageNo: number,
 		@Query('pageSize',new DefaultValuePipe(2), generateParseIntPipe('pageSize')) pageSize: number,
-		@Query('username',) username: string,
-		@Query('nickName',) nickName: string,
-		@Query('email',) email: string
+		@Query('username', new DefaultValuePipe('')) username: string,
+		@Query('nickName', new DefaultValuePipe('')) nickName: string,
+		@Query('email', new DefaultValuePipe('')) email: string,
 	) {
-		return  this.userService.findUsersByPage(username, nickName, email, pageNo, pageSize);
+		return  await this.userService.findUsersByPage(username, nickName, email, pageNo, pageSize);
 	}
 	
 }

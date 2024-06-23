@@ -113,7 +113,7 @@ export class UserService {
 			},
 			relations: ['roles', 'roles.permissions'],
 		});
-
+		
 		if (!user) {
 			throw new HttpException('用户不存在', HttpStatus.BAD_REQUEST);
 		}
@@ -157,7 +157,6 @@ export class UserService {
 			},
 			relations: ['roles', 'roles.permissions'],
 		});
-
 		return {
 			id: user.id,
 			username: user.username,
@@ -274,18 +273,18 @@ export class UserService {
 	// 获取用户列表
 	async findUsersByPage(username: string, nickName: string, email: string, pageNo: number, pageSize: number) {
 		const skipCount = (pageNo - 1) * pageSize;
+		
 		// 添加一些查询条件
 		const condition: Record<string, any> = {}
-
 		// 模糊匹配
-		if(username) {
-			condition.username = Like(`%${username}%`)
+		if(username !== 'undefined' && username) {
+			condition.username = Like(`%${username}%`);
 		}
-		if(nickName) {
-			condition.nickName = Like(`%${nickName}%`)
+		if(nickName !== 'undefined' && nickName) {
+			condition.nickName = Like(`%${nickName}%`);
 		}
-		if(email) {
-			condition.email = Like(`%${email}%`)
+		if(email !== 'undefined' && email) {
+			condition.email = Like(`%${email}%`);
 		}
 
 		const [users, totalCount] = await this.userRepository.findAndCount({
@@ -304,11 +303,6 @@ export class UserService {
 			take: pageSize,
 			where: condition
 		});
-
-		// return {
-		// 	users,
-		// 	totalCount
-		// };
 		const vo = new UserListVo();
 		vo.users = users;
 		vo.totalCount = totalCount;

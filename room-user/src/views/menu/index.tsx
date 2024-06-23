@@ -1,4 +1,5 @@
-import { Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Menu as AntdMenu, MenuProps } from 'antd';
 import './style/index.module.less';
 
@@ -12,7 +13,7 @@ const items: MenuProps['items'] = [
         label: '预定管理'
     },
     {
-        key: '3',
+        key: '/user_manage',
         label: '用户管理'
     },
     {
@@ -22,12 +23,19 @@ const items: MenuProps['items'] = [
 ];
 
 export default function Menu() {
+    const navigate = useNavigate();
+    const [selectedKeys, setSelectedKeys] = useState(['/user_manage']);
+    const onClick: MenuProps['onClick'] = (e) => {
+        navigate(e.key)
+    }
     return (
         <div id="menu-container">
             <div className="menu-area">
                 <AntdMenu 
-                    defaultSelectedKeys={['3']}
+                    defaultSelectedKeys={['/user_manage']}
+                    selectedKeys={selectedKeys}
                     items={items}
+                    onClick={onClick}
                 />
             </div>
             <div className="content-area">

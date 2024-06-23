@@ -60,12 +60,11 @@ export default function UpdateInfo() {
     }
     useEffect(() => {
         if(flag.current) {
-            flag.current = false;
             query()
-          }
+        }
+        flag.current = false;
     }, [])
     const normFile = (e: string) => {
-        console.log(222, e)
         return e;
     };
     return (

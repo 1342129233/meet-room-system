@@ -1,5 +1,5 @@
 import { Button, Form, Input, Table, message  } from 'antd';
-import { useCallback, useState } from 'react';
+import { useRef, useCallback, useState, useEffect } from 'react';
 import { SearchRequest, SearchUser, UserList, UserSearchResult } from './types';
 import { columns } from './configs';
 import { search } from './server';
@@ -7,13 +7,13 @@ import './style/index.module.less';
 
 
 export default function UserManage() {
-
+    const flag = useRef<boolean>(true);
     const [pageNo, setPageNo] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(1);
+    const [pageSize, setPageSize] = useState<number>(10);
+    const [totalCount, setTotalCount] = useState<number>(0);
     const [userResult, setUserResult] = useState<UserSearchResult[]>([]);
 
     const searchUser = useCallback(async (values: SearchUser) => {
-        console.log(values);
         const params: SearchRequest = {
             ...values,
             pageNo: 1,
@@ -21,6 +21,7 @@ export default function UserManage() {
         }
         try {
             const res = await search(params);
+            console.log('请求成功', res)
             setUserResult(
                 res.data.users.map((item: UserList) => {
                     return {
@@ -33,7 +34,9 @@ export default function UserManage() {
                     }
                 })
             )
+            setTotalCount(res.data.totalCount)
         } catch(err: any) {
+            console.log('系统繁忙,请稍后再试', err.data)
             message.error(err.data || '系统繁忙,请稍后再试')
         }
     }, [pageNo, pageSize]);
@@ -42,6 +45,17 @@ export default function UserManage() {
         setPageNo(pageNo);
         setPageSize(pageSize);
     }, [pageNo, pageSize])
+
+    useEffect(() => {
+        if(flag.current) {
+            searchUser({
+                username: '',
+                nickName: '',
+                email: ''
+            })
+        }
+        flag.current = false;
+    }, [])
 
     return (
         <div id="userManage-container">
@@ -85,6 +99,10 @@ export default function UserManage() {
                     columns={columns}
                     dataSource={userResult}
                     pagination={{ 
+                        pageSizeOptions: ['10', '20', '50', '100'],
+                        showSizeChanger: true,
+                        total: totalCount,
+                        showTotal: (total, range) => `共${total}条`,
                         current: pageNo,
                         pageSize: pageSize,
                         onChange: changePage

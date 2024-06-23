@@ -1,6 +1,6 @@
-import { post } from '@/axios';
+import { get } from '@/axios';
 import { SearchRequest, userResponse } from '../types';
 
 export function search(value: SearchRequest) {
-    return post<userResponse>('/user/list', { ...value });
+    return get<userResponse>(`/user/list?username=${value.username}&nickName=${value.nickName}&email=${value.email}&pageNo=${value.pageNo}&pageSize=${value.pageSize}`);
 }

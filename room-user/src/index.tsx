@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { ConfigProvider } from 'antd';
+import zh_CN from 'antd/es/locale/zh_CN';
 import App from './App';
 
 const root = ReactDOM.createRoot(
@@ -8,6 +10,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<App />
+		<ConfigProvider locale={zh_CN}>
+			<App />
+		</ConfigProvider>
 	</React.StrictMode>
 );
