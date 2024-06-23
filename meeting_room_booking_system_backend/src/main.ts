@@ -23,12 +23,11 @@ async function bootstrap() {
     app.useGlobalFilters(new UnloginFilter());
     // 自定义报错异常
     app.useGlobalFilters(new CustomExceptionFilter());
-
     // 静态文件根目录
     app.useStaticAssets('uploads', {
         prefix: '/uploads'
     })
-    
+
     // 配置 CORS 选项
     const corsOptions: CorsOptions = {
         origin: 'http://localhost:3000', // 允许的源，可以是字符串、数组或函数

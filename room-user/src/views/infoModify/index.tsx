@@ -1,5 +1,6 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
 import { Button, Form, Input, message } from 'antd';
+import { useForm } from 'antd/es/form/Form';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ImageUploader } from '@/components/image-uploader';
 import { getUserInfo, updateUpdateInfoCaptcha, updateInfo } from './server';
@@ -11,7 +12,7 @@ const layout1 = {
     wrapperCol: { span: 16 }
 }
 
-export default function UpdateInfo() {
+export default function InfoModify() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const flag = useRef<boolean>(true);
@@ -50,13 +51,17 @@ export default function UpdateInfo() {
             });
     };
     const query = async () => {
-        const res = await getUserInfo();
-        form.setFieldValue('headPic', res.data.headPic);
-        form.setFieldValue('nickName', res.data.nickName)
-        form.setFieldValue('email', res.data.email)
-        setInfoId({
-            id: res.data.id
-        })
+        try {
+            const res = await getUserInfo();
+            form.setFieldValue('headPic', res.data.headPic);
+            form.setFieldValue('nickName', res.data.nickName)
+            form.setFieldValue('email', res.data.email)
+            setInfoId({
+                id: res.data.id
+            })
+        } catch(err: any) {
+            message.error(err.data || '系统繁忙,请稍后再试')
+        }
     }
     useEffect(() => {
         if(flag.current) {
@@ -68,7 +73,7 @@ export default function UpdateInfo() {
         return e;
     };
     return (
-        <div id="updateInfo-container">
+        <div id="infoModify-container">
             <Form
                 form={form}
                 {...layout1}

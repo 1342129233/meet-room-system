@@ -36,7 +36,6 @@ export default function UserManage() {
             )
             setTotalCount(res.data.totalCount)
         } catch(err: any) {
-            console.log('系统繁忙,请稍后再试', err.data)
             message.error(err.data || '系统繁忙,请稍后再试')
         }
     }, [pageNo, pageSize]);

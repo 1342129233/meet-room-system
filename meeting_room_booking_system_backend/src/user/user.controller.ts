@@ -87,7 +87,7 @@ export class UserController {
 		await this.userService.initData();
 		return 'done';
 	}
-
+	
     // 登陆
 	@ApiBody({ type: LoginUserDto })
 	@ApiResponse({

@@ -201,7 +201,7 @@ export class UserService {
         
         // 查找用户信息
         const foundUser = await this.userRepository.findOneBy({
-			username: passwordDto.username,
+			username: passwordDto.email,
 		});
 		// 用户不存在
 		if(!foundUser) {

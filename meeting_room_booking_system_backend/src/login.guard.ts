@@ -55,6 +55,7 @@ export class LoginGuard implements CanActivate {
 
 		// 获取请求头中的“authorization”字段
 		const authorization = request.headers.authorization;
+
 		// 如果请求头中没有“authorization”，抛出“UnauthorizedException”
 		if (!authorization) {
 			throw new UnauthorizedException('用户未登录');
@@ -75,7 +76,8 @@ export class LoginGuard implements CanActivate {
 			};
 			return true;
 		} catch (e) {
-			throw new UnloginFilter();
+			// throw new UnloginFilter();
+			throw new UnauthorizedException('用户未登录')
 		}
 	}
 }

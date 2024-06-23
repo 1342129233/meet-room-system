@@ -27,10 +27,11 @@ export class UnloginFilter implements ExceptionFilter {
 		
 		response
 			.json({
-				code: HttpStatus.UNAUTHORIZED, // 异常状态
+				code: 401, // 异常状态
 				message: '用户未登录',
 				data: exception.message || '用户未登录',
 			})
 			.end();
 	}
 }
+
