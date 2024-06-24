@@ -14,6 +14,8 @@ import { LoginGuard } from './login.guard';
 import { PermissonGuard } from './permission.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { UploadModule } from './upload/upload.module';
+import { MeetingRoomModule } from './meeting-room/meeting-room.module';
+import { MeetingRoom } from './meeting-room/entities/meeting-room.entity';
 
 @Module({
     imports: [
@@ -44,7 +46,7 @@ import { UploadModule } from './upload/upload.module';
 					database: configService.get('mysql_server_database'),
 					synchronize: true,
 					logging: true,
-					entities: [User, Role, Permission],
+					entities: [User, Role, Permission, MeetingRoom],
 					poolSize: 10,
 					connectorPackage: 'mysql2',
 					// extra: { // 额外的身份验证插件
@@ -58,6 +60,7 @@ import { UploadModule } from './upload/upload.module';
         RedisModule,
         EmailModule,
 		UploadModule,
+		MeetingRoomModule,
     ],
     controllers: [AppController],
     providers: [

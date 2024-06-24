@@ -1,0 +1,6 @@
+ps aux | grep nest
+:wq
+get(MeetingRoomService).initData()
+methods(MeetingRoomService).initData()
+methods(MeetingRoomService)
+methods(meetingRoomService)
