@@ -6,10 +6,10 @@ export default function Home() {
     return (
         <div id="home-container">
             <div className="header">
-                <Link to="/user_manage" className="sys_name">
+                <Link to="/user-manage" className="sys_name">
                     <h1>会议室预定系统</h1>
                 </Link>
-                <Link to="/user/info_modify">
+                <Link to="/user/info-modify">
                     <UserOutlined className="icon" />
                 </Link>
             </div>

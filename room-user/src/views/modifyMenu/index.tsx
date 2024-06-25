@@ -5,11 +5,11 @@ import './style/index.module.less'
 
 const items: MenuProps['items'] = [
     {
-        key: '/user/info_modify',
+        key: '/user/info-modify',
         label: '修改信息'
     },
     {
-        key: '/user/password_modify',
+        key: '/user/password-modify',
         label: '修改密码'
     }
 ]
@@ -17,7 +17,7 @@ const items: MenuProps['items'] = [
 
 export default function modifyMenu() {
     const navigate = useNavigate();
-    const [selectedKeys, setSelectedKeys] = useState(['/user/info_modify']);
+    const [selectedKeys, setSelectedKeys] = useState(['/user/info-modify']);
     const handleMenuItemClick: MenuProps['onClick'] = (e) => {
         navigate(e.key)
     }
@@ -25,7 +25,7 @@ export default function modifyMenu() {
         <div id="menu-container">
             <div className="menu-area">
                 <AntdMenu
-                    defaultSelectedKeys={['/user/info_modify']}
+                    defaultSelectedKeys={['/user/info-modify']}
                     selectedKeys={selectedKeys}
                     items={items}
                     onClick={handleMenuItemClick}

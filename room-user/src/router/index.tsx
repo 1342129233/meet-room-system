@@ -12,6 +12,9 @@ const Menu = lazy(() => import(/* webpackChunkName: "menu" */ '@/views/menu/inde
 const ModifyMenu = lazy(() => import(/* webpackChunkName: "modifyMenu" */ '@/views/modifyMenu/index'));
 const InfoModify = lazy(() => import(/* webpackChunkName: "infoModify" */ '@/views/infoModify/index'));
 const PasswordModify = lazy(() => import(/* webpackChunkName: "passwordModify" */ '@/views/passwordModify/index'));
+const MeetingRoomManage = lazy(() => import(/* webpackChunkName: "meetingRoomManage" */ '@/views/meetingRoomManage/index'));
+const BookingManage = lazy(() => import(/* webpackChunkName: "bookingManage" */ '@/views/bookingManage/index'));
+const Statistics = lazy(() => import(/* webpackChunkName: "statistics" */ '@/views/statistics/index'));
 
 export const routes = [
     {
@@ -24,9 +27,24 @@ export const routes = [
                 element: <Menu />,
                 children: [
                     {
+                        name: '会议室管理',
+                        path: 'meeting-room-manage',
+                        element: <MeetingRoomManage />
+                    },
+                    {
+                        name: '预定管理',
+                        path: 'booking-manage',
+                        element: <BookingManage />
+                    },
+                    {
                         name: '用户管理',
-                        path: 'user_manage',
+                        path: 'user-manage',
                         element: <UserManage />
+                    },
+                    {
+                        name: '统计',
+                        path: 'statistics',
+                        element: <Statistics />
                     }
                 ]
             },
@@ -35,17 +53,17 @@ export const routes = [
                 element: <ModifyMenu />,
                 children: [
                     {
-                        path: 'info_modify',
+                        path: 'info-modify',
                         element: <InfoModify />,
                     },
                     {
-                        path: 'password_modify',
+                        path: 'password-modify',
                         element: <PasswordModify />,
                     }
                 ]
             },
             {
-                path: 'update_info',
+                path: 'update-info',
                 element: <UpdateInfo />
             },
             

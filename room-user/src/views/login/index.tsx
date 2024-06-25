@@ -23,7 +23,7 @@ export default function Login() {
             localStorage.setItem('refresh_token', data.refreshToken);
             localStorage.setItem('user_id', JSON.stringify(data.userInfo));
             message.success('登陆成功')
-            navigate('/user_manage');
+            navigate('/meeting-room-manage');
         } catch(err: any) {
             message.error(err.data || '系统繁忙,请稍后再试')
         }
