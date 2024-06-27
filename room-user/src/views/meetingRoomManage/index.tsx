@@ -19,7 +19,7 @@ export default function MeetingRoomManage() {
         {
             title: '名称',
             dataIndex: 'name',
-            key: 'createTime'
+            key: 'name'
         },
         {
             title: '容纳人数',

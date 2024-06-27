@@ -15,6 +15,10 @@ const PasswordModify = lazy(() => import(/* webpackChunkName: "passwordModify" *
 const MeetingRoomManage = lazy(() => import(/* webpackChunkName: "meetingRoomManage" */ '@/views/meetingRoomManage/index'));
 const BookingManage = lazy(() => import(/* webpackChunkName: "bookingManage" */ '@/views/bookingManage/index'));
 const Statistics = lazy(() => import(/* webpackChunkName: "statistics" */ '@/views/statistics/index'));
+const BookingMenu = lazy(() => import(/* webpackChunkName: "bookingMenu" */ '@/views/bookingMenu/index'));
+const RoomList = lazy(() => import(/* webpackChunkName: "roomList" */ '@/views/roomList/index'));
+const RoomHistory = lazy(() => import(/* webpackChunkName: "roomHistory" */ '@/views/roomHistory/index'));
+
 
 export const routes = [
     {
@@ -45,6 +49,20 @@ export const routes = [
                         name: '统计',
                         path: 'statistics',
                         element: <Statistics />
+                    }
+                ]
+            },
+            {
+                path: 'booking',
+                element: <BookingMenu />,
+                children: [
+                    {
+                        path: 'room-list',
+                        element: <RoomList />,
+                    },
+                    {
+                        path: 'room-history',
+                        element: <RoomHistory />,
                     }
                 ]
             },

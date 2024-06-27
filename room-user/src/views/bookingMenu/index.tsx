@@ -1,28 +1,20 @@
-import { useState } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Menu as AntdMenu, Button, MenuProps } from 'antd';
-import './style/index.module.less';
+import { useState } from "react";
+import './style/index.module.less'
 
 const items: MenuProps['items'] = [
     {
-        key: '/meeting-room-manage',
-        label: '会议室管理'
+        key: '/booking/room-list',
+        label: '会议室列表'
     },
     {
-        key: '/booking-manage',
-        label: '预定管理'
-    },
-    {
-        key: '/user-manage',
-        label: '用户管理'
-    },
-    {
-        key: '/statistics',
-        label: '统计'
+        key: '/booking/room-history',
+        label: '预定历史'
     }
 ];
 
-export default function Menu() {
+export default function BookingMenu() {
     const location = useLocation();
     const navigate = useNavigate();
     const [selectedKeys, setSelectedKeys] = useState([location.pathname]);
@@ -30,12 +22,12 @@ export default function Menu() {
         navigate(e.key)
         setSelectedKeys([e.key])
     }
-
+    
     return (
-        <div id="menu-container">
+        <div id="booking-menu-container">
             <div className="menu-area">
                 <AntdMenu 
-                    defaultSelectedKeys={['/user-manage']}
+                    defaultSelectedKeys={['/booking/room-list']}
                     selectedKeys={selectedKeys}
                     items={items}
                     onClick={onClick}
@@ -45,5 +37,5 @@ export default function Menu() {
                 <Outlet></Outlet>
             </div>
         </div>
-    );
+    )
 }

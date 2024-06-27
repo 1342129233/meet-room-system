@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { MeetingRoom } from './entities/meeting-room.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
-import { MeetingRoomListVo } from './vo/meeting-room-list';
+import { MeetingRoomListVo } from './vo/meeting-room.vo';
 import { CreateMeetingRoomDto } from './dto/create-meeting-room.dto';
 import { UpdateMeetingRoomDto } from './dto/update-meeting-room.dto';
 
