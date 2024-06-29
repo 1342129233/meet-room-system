@@ -26,6 +26,7 @@ export class User {
     @Column({
         length: 50,
         comment: '密码',
+        select: false, // 查询的时候不要
     })
     password: string;
 
