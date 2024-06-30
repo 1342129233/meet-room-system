@@ -135,11 +135,8 @@ async function handleUnbind(id: number) {
 }
 
     useEffect(() => {
-        if(flag.current) {
-            searchBooking()
-        }
-        flag.current = false;
-    }, [])
+        searchBooking()
+    }, [pageNo, pageSize])
     return (
         <div id="bookingHistory-container">
             <div className="bookingHistory-form">

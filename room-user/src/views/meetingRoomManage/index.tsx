@@ -137,11 +137,8 @@ export default function MeetingRoomManage() {
     }, []);
 
     useEffect(() => {
-        if(flag.current) {
-            searchMeetingRoom()
-        }
-        flag.current = false;
-    }, [])
+        searchMeetingRoom()
+    }, [pageNo, pageSize])
     return (
         <div id="meetingRoomManage-container">
             <div className="meetingRoomManage-form">

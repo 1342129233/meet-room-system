@@ -117,11 +117,8 @@ export default function RoomList() {
     }, []);
 
     useEffect(() => {
-        if(flag.current) {
-            searchMeetingRoom()
-        }
-        flag.current = false;
-    }, [])
+        searchMeetingRoom()
+    }, [pageNo, pageSize])
     
     return (
         <div id="roomList-container">

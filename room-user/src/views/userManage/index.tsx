@@ -46,15 +46,12 @@ export default function UserManage() {
     }, [pageNo, pageSize])
 
     useEffect(() => {
-        if(flag.current) {
-            searchUser({
-                username: '',
-                nickName: '',
-                email: ''
-            })
-        }
-        flag.current = false;
-    }, [])
+        searchUser({
+            username: '',
+            nickName: '',
+            email: ''
+        })
+    }, [pageNo, pageSize])
 
     return (
         <div id="userManage-container">
