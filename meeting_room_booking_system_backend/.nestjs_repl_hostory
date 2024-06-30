@@ -1,3 +1,7 @@
+methods(StatisticService).meetingRoomUsedCount(new Date(), new Date())
+methods(StatisticService).userBookignCount(new Date(), new Date())
+methods(StatisticService).userBookignCount()
+methods(StatisticService)
 ps aux | grep nest
 :wq
 get(MeetingRoomService).initData()
