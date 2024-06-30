@@ -14,9 +14,9 @@ export class StatisticService {
         const res = await this.entityManager
             .createQueryBuilder(Booking, 'b')
             .select('u.id', '用户id')
-            .addSelect('u.username', '用户名')
+            .addSelect('u.username', 'username')// 用户名
             .leftJoin(User, 'u', 'b.userId = u.id')
-            .addSelect('count(1)', '预定次数')
+            .addSelect('count(1)', 'bookingCount')// 预定次数
             .where('b.startTime between :startTime and :endTime', {
                 startTime: startTime,
                 endTime: endTime,
@@ -33,7 +33,7 @@ export class StatisticService {
         .select('m.id', 'meetingRoomId')
         .addSelect('m.name', 'meetingRoomName')
         .leftJoin(MeetingRoom, 'm', 'b.roomId = m.id')
-        .addSelect('count(1)', '预定次数')
+        .addSelect('count(1)', 'usedCount') // 使用次数
         .where('b.startTime between :startTime and :endTime', {
             startTime: startTime,
             endTime: endTime,
