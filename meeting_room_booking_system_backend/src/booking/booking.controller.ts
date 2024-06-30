@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, DefaultValuePipe } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { generateParseIntPipe } from '@/utils';
+import { UserInfo } from 'src/custom.decorator';
+import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Controller('booking')
 export class BookingController {
@@ -61,5 +63,13 @@ export class BookingController {
     @Get('urge/:id')
     async urge(@Param('id') id: number) {
         return this.bookingService.urge(id)
+    }
+
+    @Post('add')
+    async add(
+        @Body() booking: CreateBookingDto,
+        @UserInfo('userId') userId: number,
+    ) {
+        return await this.bookingService.add(booking, userId);
     }
 }

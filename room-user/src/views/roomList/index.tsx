@@ -1,11 +1,15 @@
-import { Badge, Button, Form, Input, Table, TableProps } from "antd";
+import { Badge, Button, Form, Input, message, Table, TableProps } from "antd";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SearchRoom, RoomResult } from './types';
+import BookMeetingRoom from './components/bookMeetingRoom';
+import { SearchRoom, RoomResult, MeetingRoomSearchResult } from './types';
 import './style/index.module.less';
+import { getMeetingRoom } from "./server";
 
 export default function RoomList() {
     const [form] = Form.useForm();
     const flag = useRef<boolean>(true);
+    const [isBookMeetingRoomModalOpen, setIsBookMeetingRoomModalOpen] = useState(false);
+    const [bookMeetingRoom, setBookMeetingRoom] = useState<MeetingRoomSearchResult>();
     const [meetingRoomResult, setMeetingRoomResult] = useState<Array<RoomResult>>([]);
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -50,16 +54,24 @@ export default function RoomList() {
             title: '预定状态',
             dataIndex: 'isBooked',
             key: 'isBooked',
-            render: (_, record) => (
-                record.isBooked ? <Badge status="error">已被预定</Badge> : <Badge status="success">可预定</Badge>
-            )
+            render: (_, record) => {
+                return (record.isBooked ? <Badge status="error">已被预定</Badge> : <Badge status="success">可预定</Badge>)
+            }
         },
         {
             title: '操作',
             key: 'config',
             render: (_, record) => (
                 <>
-                    <Button type="link">预定</Button>
+                    <Button 
+                        type="link"
+                        onClick={() => {
+                            setIsBookMeetingRoomModalOpen(true);
+                            setBookMeetingRoom(record)
+                        }}
+                    >
+                        预定
+                    </Button>
                 </>
             )
         }
@@ -70,7 +82,34 @@ export default function RoomList() {
         capacity: form.getFieldValue('capacity'),
         location: form.getFieldValue('location'),
         equipment: form.getFieldValue('equipment')
-    }) => {}, []);
+    }) => {
+        try {
+            const res = await getMeetingRoom({
+                ...values,
+                pageNo,
+                pageSize
+            });
+            setMeetingRoomResult(
+                res.data.meetingRooms.map((item: MeetingRoomSearchResult) => {
+                    return {
+                        key: item.name,
+                        id: item.id,
+                        name: item.name,
+                        capacity: item.capacity,
+                        location: item.location,
+                        equipment: item.equipment,
+                        description: item.description,
+                        isBooked: item.isBooked,
+                        createTime: item.createTime,
+                        updateTime: item.updateTime
+                    }
+                })
+            )
+            setTotalCount(res.data.totalCount)
+        } catch(err: any) {
+            message.error(err.data || '系统繁忙,请稍后再试')
+        }
+    }, [pageNo, pageSize]);
 
     const changePage = useCallback((pageNo: number, pageSize: number) => {
         setPageNo(pageNo)
@@ -128,6 +167,12 @@ export default function RoomList() {
                     }}
                 />
             </div>
+            <BookMeetingRoom 
+                isOPen={isBookMeetingRoomModalOpen}
+                meetingRoom={bookMeetingRoom}
+                handleClose={() => setIsBookMeetingRoomModalOpen(false)}
+                getList={() => searchMeetingRoom()}
+            />
         </div>
     )
 }

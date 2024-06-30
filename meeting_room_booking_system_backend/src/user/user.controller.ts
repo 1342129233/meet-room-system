@@ -134,8 +134,9 @@ export class UserController {
     // admin 登陆
     @Post('admin/login')
 	async adminLogin(@Body() loginUser: LoginUserDto) {
+		
 		const vo = await this.userService.login(loginUser, true);
-
+		
 		vo.accessToken = this.jwtService.sign(
 			{
 				userId: vo.userInfo.id,

@@ -26,7 +26,8 @@ export class Booking {
     endTime: Date
 
     @Column({
-        comment: '状态(1.申请中,2.审批通过,3.审批驳回,4.已解除)'
+        comment: '状态(1.申请中,2.审批通过,3.审批驳回,4.已解除)',
+        default: 1
     })
     status: number
 

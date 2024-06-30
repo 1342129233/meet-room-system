@@ -37,7 +37,7 @@ export class MeetingRoomService {
 	}
 
 	// 查询列表
-	async find(pageNo: number, pageSize: number, name: string, capacity: number, equipment: string) {
+	async find(pageNo: number, pageSize: number, name: string, capacity: number, equipment: string, location: string) {
 		if(pageNo < 1) {
 			throw new BadRequestException('pageNo 不能小于 1');
 		}
@@ -55,6 +55,10 @@ export class MeetingRoomService {
 
 		if(capacity) {
 			condition.capacity = capacity;
+		}
+
+		if(location !== 'undefined' && location) {
+			condition.location = Like(`%${location}%`);
 		}
 
 		const [meetingRooms, totalCount] = await this.repository.findAndCount({

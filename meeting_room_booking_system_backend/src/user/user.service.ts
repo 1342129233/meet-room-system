@@ -106,6 +106,7 @@ export class UserService {
 
     // 登陆
     async login(loginUserDto: LoginUserDto, isAdmin: boolean) {
+		console.log(11111, loginUserDto.username, isAdmin)
 		const user = await this.userRepository.findOne({
 			where: {
 				username: loginUserDto.username,
@@ -113,11 +114,11 @@ export class UserService {
 			},
 			relations: ['roles', 'roles.permissions'],
 		});
-		
+
 		if (!user) {
 			throw new HttpException('用户不存在', HttpStatus.BAD_REQUEST);
 		}
-
+		
 		if (user.password !== md5(loginUserDto.password)) {
 			throw new HttpException('密码错误', HttpStatus.BAD_REQUEST);
 		}

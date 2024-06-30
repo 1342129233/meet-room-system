@@ -13,8 +13,8 @@ export default function Home() {
                 </Link>
                 <div>
                     <Radio.Group onChange={(e) => navigate(e.target.value)}>
-                        <Radio.Button value="/meeting-room-manage">会议室</Radio.Button>
-                        <Radio.Button value="/booking/room-list">预定</Radio.Button>
+                        <Radio.Button value="/meeting-room-manage">管理端</Radio.Button>
+                        <Radio.Button value="/booking/room-list">用户端</Radio.Button>
                     </Radio.Group>
                     <Link to="/user/info-modify">
                         <UserOutlined className="icon" />

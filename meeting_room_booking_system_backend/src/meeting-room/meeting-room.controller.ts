@@ -53,9 +53,10 @@ export class MeetingRoomController {
 		@Query('name') name: string,
 		@Query('capacity') capacity: number,
 		@Query('equipment') equipment: string,
+		@Query('location') location: string
 	) {
 		// 会议室列表
-		return await this.meetingRoomService.find(pageNo, pageSize, name, capacity, equipment)
+		return await this.meetingRoomService.find(pageNo, pageSize, name, capacity, equipment, location)
 	}
 
 	@ApiBody({ type: CreateMeetingRoomDto })
