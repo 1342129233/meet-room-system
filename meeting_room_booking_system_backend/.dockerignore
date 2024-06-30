@@ -1,0 +1,5 @@
+node_modules/
+.vscode/
+.git/
+
+# 使用命令跑起来: docker compose up 
