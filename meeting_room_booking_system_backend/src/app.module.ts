@@ -24,7 +24,7 @@ import { StatisticModule } from './statistic/statistic.module';
     imports: [
         ConfigModule.forRoot({
             isGlobal: true, // 全局配置
-			// envFilePath: 'src/.env', // 读取的配置文件
+			envFilePath: 'src/.env', // 读取的配置文件
         }),
 		JwtModule.registerAsync({
 			global: true,
@@ -47,8 +47,8 @@ import { StatisticModule } from './statistic/statistic.module';
 					username: configService.get('mysql_server_username'),
 					password: configService.get('mysql_server_password'),
 					database: configService.get('mysql_server_database'),
-					// synchronize: false,
-					logging: true,
+					synchronize: false,
+          			logging: true,
 					entities: [User, Role, Permission, MeetingRoom, Booking],
 					poolSize: 10,
 					connectorPackage: 'mysql2',

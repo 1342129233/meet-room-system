@@ -33,7 +33,7 @@ export class InvokeRecordInterceptor implements NestInterceptor {
 		);
 		// 响应时间   
 		const now = Date.now();
-
+		
 		return next.handle().pipe(
 			tap((res) => {
 				// 记录响应时间

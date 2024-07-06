@@ -14,6 +14,10 @@ const layout2 = {
     wrapperCol: { span: 24 }
 }
 
+const RegexpPattern = {
+    phone: /^1[3-9]\d{9}$/
+};
+
 export default function Register() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -21,13 +25,14 @@ export default function Register() {
     const onFinish = async (values: RegisterUser) => {
         try {
             await register(values); 
-            message.success('注册成功');
-            setTimeout(() => {
-                setTimeout(() => {
-                    navigate('/login');
-                })
-            }, 1000);
+            // message.success('注册成功');
+            // setTimeout(() => {
+            //     setTimeout(() => {
+            //         navigate('/login');
+            //     })
+            // }, 1000);
         } catch(err: any) {
+            console.log('err', err)
             message.error(err.data || '系统繁忙,请稍后再试');
         }
     };
@@ -84,6 +89,16 @@ export default function Register() {
                     <Input />
                 </Form.Item>
                 <Form.Item
+                    label="手机号"
+                    name="phoneNumber"
+                    rules={[
+                        { required: true, message: '请输入手机号!' },
+                        { pattern: RegexpPattern.phone, message: '请输入合法的手机号！' }
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
                     label="密码"
                     name="password"
                     rules={[{ required: true, message: '请输入密码!' }]}
@@ -130,7 +145,7 @@ export default function Register() {
                     </div>
                 </Form.Item>
                 <Form.Item
-                    { ...layout2 }
+                    wrapperCol={{ offset: 8, span: 16 }}
                 >
                     <Button className="btn" type="primary" htmlType="submit">
                         注册

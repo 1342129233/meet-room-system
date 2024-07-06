@@ -8,5 +8,5 @@ export function registerCaptcha(email: string) {
 
 // 注册
 export function register(value: RegisterUser) {
-   return post('/user/register', value)
+   return post('/user/admin/register', value)
 }

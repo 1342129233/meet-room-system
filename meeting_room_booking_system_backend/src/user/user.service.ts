@@ -29,7 +29,7 @@ export class UserService {
     @InjectRepository(Permission)
     private permissionRepository: Repository<User>;
 
-    async register(user: RegisterUserDto) {
+    async register(user: RegisterUserDto, isAdmin: boolean) {
         const captcha = await this.redisService.get(`captcha_${user.email}`);
         // 1.如果没有
         if (!captcha) {
@@ -53,14 +53,49 @@ export class UserService {
         newUser.password = md5(user.password);
         newUser.email = user.email;
         newUser.nickName = user.nickName;
+		newUser.phoneNumber = user.phoneNumber;
 
-        try {
-            await this.userRepository.save(newUser);
-            return { code: 200, message: '注册成功' };
-        } catch (e) {
-            this.logger.error(e, UserService);
-            return { code: 0, message: '注册失败' };
-        }
+		if(isAdmin) {
+			// 创建管理员
+
+			const role = new Role();
+			role.name = '管理员';
+
+			const permission = new Permission();
+			permission.code = '0';
+			permission.description = '管理员创建的备注';
+
+			newUser.roles = [role]
+			role.permissions = [permission]
+			try {
+				await this.userRepository.save(newUser);
+				return '注册成功';
+			} catch (e) {
+				this.logger.error(e, UserService);
+				return '注册失败';
+			}
+		} else {
+			// 创建普通用户
+
+			const role = new Role();
+			role.name = '普通用户';
+
+			const permission = new Permission();
+			permission.code = '6';
+			permission.description = '普通用户创建的备注';
+
+			newUser.roles = [role]
+			role.permissions = [permission]
+			try {
+				await this.userRepository.save(newUser);
+				return '注册成功';
+			} catch (e) {
+				this.logger.error(e, UserService);
+				return '注册失败';
+			}
+		}
+
+        
     }
 
     // 初始化数据
@@ -106,7 +141,7 @@ export class UserService {
 
     // 登陆
     async login(loginUserDto: LoginUserDto, isAdmin: boolean) {
-		console.log(11111, loginUserDto.username, isAdmin)
+
 		const user = await this.userRepository.findOne({
 			where: {
 				username: loginUserDto.username,

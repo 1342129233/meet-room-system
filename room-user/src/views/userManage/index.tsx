@@ -21,7 +21,6 @@ export default function UserManage() {
         }
         try {
             const res = await search(params);
-            console.log('请求成功', res)
             setUserResult(
                 res.data.users.map((item: UserList) => {
                     return {
