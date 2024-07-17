@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -24,7 +25,9 @@ import { StatisticModule } from './statistic/statistic.module';
     imports: [
         ConfigModule.forRoot({
             isGlobal: true, // 全局配置
-			envFilePath: 'src/.env', // 读取的配置文件
+			// envFilePath: 'src/.env', // 读取的配置文件
+			envFilePath: path.join(__dirname, '.env')
+
         }),
 		JwtModule.registerAsync({
 			global: true,
@@ -65,7 +68,7 @@ import { StatisticModule } from './statistic/statistic.module';
 		UploadModule,
 		MeetingRoomModule,
 		BookingModule,
-		StatisticModule,
+		StatisticModule
     ],
     controllers: [AppController],
     providers: [
