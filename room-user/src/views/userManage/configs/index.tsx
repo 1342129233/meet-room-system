@@ -14,7 +14,7 @@ export const columns: TableProps<UserSearchResult>['columns'] = [
         dataIndex: 'headPic',
         key: 'headPic',
         render: value => {
-            return value ? (<Image width={50} src={`http://localhost:9000/${value}`} />) : ("")
+            return value ? (<Image width={50} src={`http://localhost:3005/${value}`} />) : ("")
         }
     },
     {

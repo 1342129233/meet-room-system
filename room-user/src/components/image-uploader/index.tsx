@@ -24,7 +24,7 @@ export const ImageUploader= (props: ImageUploaderProps) => {
                     uid: '0',
                     name: '5xha7azys9654ja.png',
                     status: 'done',
-                    url: `http://${currentDomain}:9000/uploads/1718970890273-540200103-5xha7azys9654ja.png`
+                    url: `http://${currentDomain}:3005/uploads/1718970890273-540200103-5xha7azys9654ja.png`
                 } 
             ])
             flag.current = false;
@@ -49,7 +49,7 @@ export const ImageUploader= (props: ImageUploaderProps) => {
     return (
         <>
             <Upload
-                action="http://localhost:9000/upload/picture"
+                action="http://localhost:3005/upload/picture"
                 listType="picture-card"
                 fileList={fileList}
                 multiple={false}

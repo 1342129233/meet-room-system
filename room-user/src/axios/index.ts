@@ -3,7 +3,7 @@ import axios, { AxiosResponse, AxiosRequestConfig, AxiosRequestHeaders } from 'a
 
 const instance = axios.create({
     // baseURL: 'http://localhost/api',
-    baseURL: 'http://localhost:5170/api',
+    baseURL: 'http://localhost:3005/api',
     timeout: 5 * 1000,
     withCredentials: true,
     headers: {
@@ -127,7 +127,7 @@ export const del = <T, P=Record<string, unknown>>(url: string, params?: P, confi
 // 刷新token
 async function refreshToken () {
     const refresh_token = localStorage.getItem('refresh_token')
-    const res: any = await axios.get(`http://localhost:9000/user/admin/refresh?refreshToken=${refresh_token}`)
+    const res: any = await axios.get(`http://localhost:3005/user/admin/refresh?refreshToken=${refresh_token}`)
     localStorage.setItem('access_token', res.data.data.access_token);
     localStorage.setItem('refresh_token', res.data.data.refresh_token);
     return res;
