@@ -1,34 +1,43 @@
 version: '3.8'
 services:
     nest-app:
+        container_name: nest-app  # 指定容器名称为 "nest-app"
         build:
             context: ./
-            dockerfile: Dockerfile
+            dockerfile: ./Dockerfile
         depends_on:
             - mysql-container
             - redis-container
         ports:
-            - 3005:3005
+            - 3005:9000
         networks:
             - common-network
     mysql-container:
-        image: mysql
+        image: mysql:8.0
+        container_name: mysql-app  # 指定容器名称为 "mysql-app"
+        ports:
+            - 3306:3306
         volumes:
-            - my-mysql-volume:/var/lib/mysql
+            - my-mysql-8-volume:/var/lib/mysql
+            # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
         environment:
-            MYSQL_SATABASE: meeting_room_booking_system
+            MYSQL_DATABASE: myConferencRoom
             MYSQL_ROOT_PASSWORD: root
         networks:
             - common-network
     redis-container:
         image: redis
+        container_name: redis-app  # 指定容器名称为 "redis-app"
+        ports:
+            - 6379:6379
         volumes:
             - my-redis-volume:/data
         networks:
             - common-network
 networks:
     common-network:
-        driver: bridge
+        # driver: bridge
 volumes:
-    my-mysql-volume:
+    my-fe-app:
+    my-mysql-8-volume:
     my-redis-volume:
