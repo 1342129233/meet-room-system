@@ -3,7 +3,7 @@ import axios, { AxiosResponse, AxiosRequestConfig, AxiosRequestHeaders } from 'a
 
 const instance = axios.create({
     // baseURL: 'http://localhost/api',
-    baseURL: 'http://172.20.0.4:5170/api',
+    baseURL: 'http://localhost:5170/api',
     timeout: 5 * 1000,
     withCredentials: true,
     headers: {
