@@ -1,5 +1,14 @@
 version: '3.8'
 services:
+    fe-app:
+        image: room-user
+        ports:
+            - 80:80
+        depends_on:
+            - nest-app
+        restart: always
+        networks:
+            - common-network
     nest-app:
         container_name: nest-app  # 指定容器名称为 "nest-app"
         build:
@@ -9,7 +18,7 @@ services:
             - mysql-container
             - redis-container
         ports:
-            - 5170:9000
+            - 3005:9000
         networks:
             - common-network
     mysql-container:
