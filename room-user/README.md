@@ -44,5 +44,5 @@ docker
 docker build -t <名字> .
 
 // 运行容器
-docker run -d -p 5173:5170 --name room-user room-user
+docker run -d -p 5170:80 --name room-user room-user
 ```

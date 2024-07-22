@@ -1,14 +1,5 @@
 version: '3.8'
 services:
-    fe-app:
-        image: room-user
-        ports:
-            - 80:80
-        depends_on:
-            - nest-app
-        restart: always
-        networks:
-            - common-network
     nest-app:
         container_name: nest-app  # 指定容器名称为 "nest-app"
         build:
@@ -47,6 +38,5 @@ networks:
     common-network:
         # driver: bridge
 volumes:
-    my-fe-app:
     my-mysql-8-volume:
     my-redis-volume:

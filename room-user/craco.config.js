@@ -15,17 +15,17 @@ module.exports = {
         // }
     },
 	//配置代理解决跨域
-	devServer: {
-		proxy: {
-			"/api": {
-				target: 'http://192.168.1.1:3005',
-				changeOrigin: true,
-				pathRewrite: {
-					"^/api": ""
-				}
-			}
-		}
-	},
+	// devServer: {
+	// 	proxy: {
+	// 		"/api": {
+	// 			target: 'http://127.0.0.1:9000',
+	// 			changeOrigin: true,
+	// 			pathRewrite: {
+	// 				"^/api": ""
+	// 			}
+	// 		}
+	// 	}
+	// },
     // 插件
     plugins: [
         {

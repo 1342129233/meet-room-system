@@ -16,7 +16,7 @@ async function bootstrap() {
 
     // 配置 CORS 选项
     const corsOptions: CorsOptions = {
-        origin: '*', // 允许的源，可以是字符串、数组或函数 http://nest-app:3005
+        origin: true, // 允许的源，可以是字符串、数组或函数 http://nest-app:3005
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 允许的方法
         allowedHeaders: 'Content-Type, Accept, Authorization, x-requested-with', // 允许的请求头
         credentials: true, // 是否允许发送凭据（如 cookies）
