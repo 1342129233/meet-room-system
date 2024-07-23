@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
  * @returns 
  */
 export function apply(id: number) {
-    return get<Response>('/booking/apply/' + id);
+    return get<Response>('/fe-app/booking/apply/' + id);
 }
   
 /**
@@ -17,7 +17,7 @@ export function apply(id: number) {
    * @returns 
    */
 export function reject(id: number) {
-    return get<Response>('/booking/reject/' + id);
+    return get<Response>('/fe-app/booking/reject/' + id);
 }
   
 /**
@@ -26,7 +26,7 @@ export function reject(id: number) {
    * @returns 
    */
 export function unbind(id: number) {
-    return get<Response>('/booking/unbind/' + id);
+    return get<Response>('/fe-app/booking/unbind/' + id);
 }
 
 export function bookingList(searchBooking: SearchBooking, pageNo: number, pageSize: number) {
@@ -46,7 +46,7 @@ export function bookingList(searchBooking: SearchBooking, pageNo: number, pageSi
     }
 
 
-    return get<BookingListResult>('/booking/list', {
+    return get<BookingListResult>('/fe-app/booking/list', {
         username: searchBooking.username,
         meetingRoomName: searchBooking.meetingRoomName,
         meetingRoomPosition: searchBooking.meetingRoomPosition,

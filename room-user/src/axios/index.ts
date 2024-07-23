@@ -2,7 +2,7 @@ import { message } from 'antd';
 import axios, { AxiosResponse, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 
 const instance = axios.create({
-    baseURL: 'http://127.0.0.1:9000',
+    // baseURL: 'http://127.0.0.1:3005',
     timeout: 5 * 1000,
     withCredentials: true,
     headers: {

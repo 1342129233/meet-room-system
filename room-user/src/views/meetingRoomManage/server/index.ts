@@ -3,27 +3,27 @@ import { MeetingRoomResponse, MeetingRoomRequest, FormMeetingRoom, MeetingRoomSe
 
 // 获取列表
 export function getMeetingRoom(value: MeetingRoomRequest ) {
-    return get<MeetingRoomResponse>('/meeting-room/list', {
+    return get<MeetingRoomResponse>('/fe-app/meeting-room/list', {
         ...value
     });
 }
 
 // 创建
 export function createRoom(value: FormMeetingRoom) {
-    return post('/meeting-room/create', { ...value })
+    return post('/fe-app/meeting-room/create', { ...value })
 }
 
 // 更新
 export function updateRoom(value: FormMeetingRoom) {
-    return put('/meeting-room/update', { ...value })
+    return put('/fe-app/meeting-room/update', { ...value })
 }
 
 // 获取单个
 export function meetingRoom(id: number) {
-    return get<MeetingRoomSearchResult>(`/meeting-room/${id}`)
+    return get<MeetingRoomSearchResult>(`/fe-app/meeting-room/${id}`)
 }
 
 // 删除
 export function deleteRoom(id: number) {
-    return del(`/meeting-room/${id}`)
+    return del(`/fe-app/meeting-room/${id}`)
 }

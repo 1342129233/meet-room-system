@@ -15,17 +15,17 @@ module.exports = {
         // }
     },
 	//配置代理解决跨域
-	// devServer: {
-	// 	proxy: {
-	// 		"/api": {
-	// 			target: 'http://127.0.0.1:9000',
-	// 			changeOrigin: true,
-	// 			pathRewrite: {
-	// 				"^/api": ""
-	// 			}
-	// 		}
-	// 	}
-	// },
+	devServer: {
+		proxy: {
+			"/fe-app": {
+				target: 'http://127.0.0.1:80',
+				changeOrigin: true,
+				pathRewrite: {
+					"^/api": ""
+				}
+			}
+		}
+	},
     // 插件
     plugins: [
         {

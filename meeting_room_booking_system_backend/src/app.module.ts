@@ -50,7 +50,7 @@ import { StatisticModule } from './statistic/statistic.module';
 					username: configService.get('mysql_server_username'),
 					password: configService.get('mysql_server_password'),
 					database: configService.get('mysql_server_database'),
-					synchronize: false,
+					synchronize: true,
           			logging: true,
 					entities: [User, Role, Permission, MeetingRoom, Booking],
 					// entities: [__dirname + '/**/*.entity{.ts,.js}'],

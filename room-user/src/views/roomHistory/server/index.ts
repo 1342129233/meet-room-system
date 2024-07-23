@@ -16,7 +16,7 @@ export function bookingList(searchBooking: SearchBooking, pageNo: number, pageSi
         const rangeEndTimeStr = dayjs(searchBooking.rangeEndTime).format('HH:mm');
         bookingTimeRangeEnd = dayjs(rangeEndDateStr + ' ' + rangeEndTimeStr).valueOf();
     }
-    return get<BookingSearchResponse>('/booking/list', {
+    return get<BookingSearchResponse>('/fe-app/booking/list', {
         username: searchBooking.username,
         meetingRoomName: searchBooking.meetingRoomName,
         meetingRoomPosition: searchBooking.meetingRoomPosition,
@@ -29,6 +29,6 @@ export function bookingList(searchBooking: SearchBooking, pageNo: number, pageSi
 
 // 解除预定
 export function bookingUnbind(id: number) {
-    return get<Response>(`/booking/unbind/${id}`)
+    return get<Response>(`/fe-app/booking/unbind/${id}`)
 }
 

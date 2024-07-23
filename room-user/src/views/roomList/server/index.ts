@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 // 获取列表
 export function getMeetingRoom(value: MeetingRoomRequest ) {
-    return get<MeetingRoomResponse>('/meeting-room/list', {
+    return get<MeetingRoomResponse>('/fe-app/meeting-room/list', {
         ...value
     });
 }
@@ -20,7 +20,7 @@ export function bookingAdd(booking: createBooking) {
     const rangeEndTimeStr = dayjs(booking.rangeEndTime).format('HH:mm');
     const endTime = dayjs(rangeEndDateStr + ' ' + rangeEndTimeStr).valueOf();
 
-    return post<Response>('/booking/add', {
+    return post<Response>('/fe-app/booking/add', {
         meetingRoomId: booking.meetingRoomId,
         startTime,
         endTime,
